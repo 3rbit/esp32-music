@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Selector from "$lib/selector.svelte";
+	import Selector from '$lib/selector.svelte';
 </script>
 
 <div class="grid-container">
@@ -7,12 +7,11 @@
 		<Selector name="scale" />
 	</div>
 	<div class="grid-item">
-    <Selector name="tempo" />
-  </div>
+		<Selector name="tempo" />
+	</div>
 	<div class="grid-item">
-    <Selector name="note range" />
-  </div>
-
+		<Selector name="note range" />
+	</div>
 </div>
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>

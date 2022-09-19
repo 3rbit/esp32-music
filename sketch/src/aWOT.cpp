@@ -20,7 +20,7 @@
   THE SOFTWARE.
 */
 
-#include "aWOT.h"
+#include "..\include\aWOT.h"
 
 Response::Response(Client* client, uint8_t * writeBuffer, int writeBufferLength)
     : m_stream(client),

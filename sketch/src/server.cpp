@@ -12,9 +12,18 @@
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
-// const char index_html[] PROGMEM = R"rawliteral(
-
-// )rawliteral";
+void handleWebSocketMessage(AsyncWebSocketClient *client, void *arg, uint8_t *data, size_t len)
+{
+  AwsFrameInfo *info = (AwsFrameInfo *)arg;
+  if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
+  {
+    data[len] = 0;
+    if (strcmp((char *)data, "ping") == 0)
+    {
+      client->text("pong");
+    }
+  }
+}
 
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type,
              void *arg, uint8_t *data, size_t len)
@@ -28,6 +37,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
     Serial.printf("WebSocket client #%u disconnected\n", client->id());
     break;
   case WS_EVT_DATA:
+    handleWebSocketMessage(client, arg, data, len);
     Serial.printf("Message: %s\n", data);
     break;
   case WS_EVT_PONG:
@@ -45,7 +55,8 @@ void initWebSocket()
 void webServerSetup()
 {
   // Initialize SPIFFS
-  if(!SPIFFS.begin(true)){
+  if (!SPIFFS.begin(true))
+  {
     Serial.println("An Error has occurred while mounting SPIFFS");
     return;
   }
@@ -64,15 +75,13 @@ void webServerSetup()
   // Request to the root or none existing files will try to server the defualt
   // file name "index.htm" if exists
   server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
-    // Route for root / web page
+  // Route for root / web page
   // server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
   //   request->send(SPIFFS, "/index.html", String());
   // });
 
-  server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/index.html");
-  });
-
+  server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(SPIFFS, "/index.html"); });
 
   // Start server
   server.begin();

@@ -38,7 +38,7 @@
   "awot-static": {
 		"sources": "./build",
 		"indexFile": "index.html",
-		"sketchDir": "../sketch",
+		"sketchDir": "../sketch/include",
 		"exclude": [
 			"*.map"
 		]

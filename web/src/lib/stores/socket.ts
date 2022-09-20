@@ -1,6 +1,6 @@
 import { readable } from "svelte/store";
 
-const gateway = `ws://192.168.1.129:3000/ws`
+const gateway = `ws://${window.location.hostname}:3000/ws`
 
 let socket = new WebSocket(gateway)
 

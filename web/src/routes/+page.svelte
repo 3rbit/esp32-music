@@ -1,31 +1,29 @@
 <script lang="ts">
-	import Selector from '$lib/selector.svelte';
+  import {socketStore} from '$lib/stores/socket'
+	import { get } from 'svelte/store';
+  function handleClick(event: MouseEvent) {
+    let socket = get(socketStore)
+    socket.send("ping")
+  }
+  
 </script>
 
-<div class="grid-container">
-	<div class="grid-item">
-		<Selector name="scale" />
-	</div>
-	<div class="grid-item">
-		<Selector name="tempo" />
-	</div>
-	<div class="grid-item">
-		<Selector name="note range" />
-	</div>
-</div>
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<svelte:head>
+	<title>Home</title>
+	<meta name="description" content="Svelte demo app" />
+</svelte:head>
+
+<section>
+	<button on:click|preventDefault={handleClick}>ping</button>
+</section>
 
 <style>
-	.grid-container {
-		display: inline-grid;
-		/* grid-column: 1; */
-		grid-template-columns: auto auto auto;
-		gap: 2.5rem;
+	section {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex: 1;
 	}
-	.grid-item {
-		padding: 20px;
-		text-align: center;
-		border: 1px solid;
-	}
+
 </style>

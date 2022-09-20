@@ -32,8 +32,8 @@ void readUltrasonic()
   distanceCm = duration * SOUND_SPEED / 2;
 
   // Prints the distance in the Serial Monitor
-  Serial.print("Distance (cm): ");
-  Serial.println(distanceCm);
+  // Serial.print("Distance (cm): ");
+  // Serial.println(distanceCm);
 }
 
 void readPIR()
@@ -41,8 +41,8 @@ void readPIR()
   int pirStat = 0;
   pirStat = digitalRead(pirPin);
 
-  Serial.print("PIR: ");
-  Serial.println(pirStat);
+  // Serial.print("PIR: ");
+  // Serial.println(pirStat);
 }
 
 void readDHT()
@@ -60,40 +60,40 @@ void readDHT()
   float hif = dht.computeHeatIndex(f, h);
   float hic = dht.computeHeatIndex(t, h, false);
 
-  Serial.print("Humidity: ");
-  Serial.print(h);
-  Serial.print(" %\t");
-  Serial.print("Temperature: ");
-  Serial.print(t);
-  Serial.print(" *C ");
-  Serial.print(f);
-  Serial.print(" *F\t");
-  Serial.print("Heat index: ");
-  Serial.print(hic);
-  Serial.print(" *C ");
-  Serial.print(hif);
-  Serial.println(" *F");
+  // Serial.print("Humidity: ");
+  // Serial.print(h);
+  // Serial.print(" %\t");
+  // Serial.print("Temperature: ");
+  // Serial.print(t);
+  // Serial.print(" *C ");
+  // Serial.print(f);
+  // Serial.print(" *F\t");
+  // Serial.print("Heat index: ");
+  // Serial.print(hic);
+  // Serial.print(" *C ");
+  // Serial.print(hif);
+  // Serial.println(" *F");
 }
 
 void readLDR() {
   // reads the input on analog pin A0 (value between 0 and 1023)
   int analogValue = analogRead(ldrPin);
 
-  Serial.print("Analog reading: ");
-  Serial.print(analogValue);   // the raw analog reading
+  // Serial.print("Analog reading: ");
+  // Serial.print(analogValue);   // the raw analog reading
 
-  // We'll have a few threshholds, qualitatively determined
-  if (analogValue < 10) {
-    Serial.println(" - Dark");
-  } else if (analogValue < 200) {
-    Serial.println(" - Dim");
-  } else if (analogValue < 500) {
-    Serial.println(" - Light");
-  } else if (analogValue < 800) {
-    Serial.println(" - Bright");
-  } else {
-    Serial.println(" - Very bright");
-  }
+  // // We'll have a few threshholds, qualitatively determined
+  // if (analogValue < 10) {
+  //   Serial.println(" - Dark");
+  // } else if (analogValue < 200) {
+  //   Serial.println(" - Dim");
+  // } else if (analogValue < 500) {
+  //   Serial.println(" - Light");
+  // } else if (analogValue < 800) {
+  //   Serial.println(" - Bright");
+  // } else {
+  //   Serial.println(" - Very bright");
+  // }
 
 }
 

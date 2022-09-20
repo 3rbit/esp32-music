@@ -1,21 +1,21 @@
 {
-	"name": "generative-music",
+	"name": "my-app",
 	"version": "0.0.1",
-	"private": true,
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write .",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write .",
 		"dist": "awot-static"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-static": "^1.0.0-next.43",
 		"@sveltejs/kit": "next",
+		"@types/cookie": "^0.5.1",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"awot-scripts": "^3.1.2",
@@ -24,7 +24,7 @@
 		"eslint-plugin-svelte3": "^4.0.0",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
-		"svelte": "^3.44.0",
+		"svelte": "^3.46.0",
 		"svelte-check": "^2.7.1",
 		"svelte-preprocess": "^4.10.6",
 		"tslib": "^2.3.1",
@@ -32,12 +32,16 @@
 		"vite": "^3.1.0"
 	},
 	"type": "module",
-	"awot-static": {
+	"dependencies": {
+		"@fontsource/fira-mono": "^4.5.0"
+	},
+  "awot-static": {
 		"sources": "./build",
 		"indexFile": "index.html",
-		"sketchDir": "../esp32",
+		"sketchDir": "../sketch",
 		"exclude": [
 			"*.map"
 		]
 	}
+
 }

@@ -2,41 +2,54 @@
 
 #include <Arduino.h>
 #include <WiFi.h>
-#include <WebSocketServer.h>
-#include <aWOT.h>
-#include "..\include\StaticFiles.h"
+#include <ESPAsyncWebServer.h>
+#include <SPIFFS.h>
+
 #include "..\include\server.h"
 #include "..\include\global.h"
-using namespace net;
 
-WiFiServer server(80);
-WebSocketServer socketServer{3000};
+// Create AsyncWebServer object on port 80
+AsyncWebServer server(80);
+AsyncWebSocket ws("/ws");
 
-Application app;
+// const char index_html[] PROGMEM = R"rawliteral(
 
-void webSocketSetup()
+// )rawliteral";
+
+void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type,
+             void *arg, uint8_t *data, size_t len)
 {
-  socketServer.onConnection([](WebSocket &ws)
-                            {
-    const char message[]{ "Hello from Arduino server!" };
-    ws.send(WebSocket::DataType::TEXT, message, strlen(message));
+  switch (type)
+  {
+  case WS_EVT_CONNECT:
+    Serial.printf("WebSocket client #%u connected from %s\n", client->id(), client->remoteIP().toString().c_str());
+    break;
+  case WS_EVT_DISCONNECT:
+    Serial.printf("WebSocket client #%u disconnected\n", client->id());
+    break;
+  case WS_EVT_DATA:
+    Serial.printf("Message: %s\n", data);
+    break;
+  case WS_EVT_PONG:
+  case WS_EVT_ERROR:
+    break;
+  }
+}
 
-    ws.onClose([](WebSocket &ws, const WebSocket::CloseCode code,
-                 const char *reason, uint16_t length) {
-      // ...
-    });
-    ws.onMessage([](WebSocket &ws, const WebSocket::DataType dataType,
-                   const char *message, uint16_t length) {
-      Serial.println(message);
-
-      if (strcmp(message, "ping")) {
-        ws.send(WebSocket::DataType::TEXT, "pong", 4);
-      }
-    }); });
+void initWebSocket()
+{
+  ws.onEvent(onEvent);
+  server.addHandler(&ws);
 }
 
 void webServerSetup()
 {
+  // Initialize SPIFFS
+  if(!SPIFFS.begin(true)){
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    return;
+  }
+
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -45,20 +58,27 @@ void webServerSetup()
   }
   Serial.println(WiFi.localIP());
 
-  app.use(staticFiles()); // serve static files
+  initWebSocket();
 
-  webSocketSetup();
+  // Serve files in directory "/www/" when request url starts with "/"
+  // Request to the root or none existing files will try to server the defualt
+  // file name "index.htm" if exists
+  server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
+    // Route for root / web page
+  // server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+  //   request->send(SPIFFS, "/index.html", String());
+  // });
 
-  socketServer.begin();
+  server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/index.html");
+  });
+
+
+  // Start server
   server.begin();
 }
 
 void webServerLoop()
 {
-  socketServer.listen();
-
-  WiFiClient client = server.available();
-
-  if (client.connected())
-    app.process(&client);
+  ws.cleanupClients();
 }

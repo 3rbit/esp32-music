@@ -20,6 +20,8 @@ function onOpen(event) {
   console.log(event);
 
   socket.send('ping')
+
+  $("#connecting").text("Connected").attr("id", "connected").attr("class", "title has-text-success")
 }
 
 function onClose(event) {
@@ -27,6 +29,8 @@ function onClose(event) {
   console.log(event);
 
   socket = undefined
+
+  $("#connected").text("Connecting").attr("id", "connecting").attr("class", "title has-text-warning")
 
   setTimeout(initWebSocket, 2000); //attempt to reconnect
 }
@@ -47,7 +51,7 @@ function onMessage(event) {
 
   switch (target) {
     case "sensors":
-      $("#json").text(JSON.stringify(data, undefined, 2))
+      onMessageSensor(data)
       break;
 
     default:
@@ -55,6 +59,15 @@ function onMessage(event) {
   }
 
   // console.log(event.data);
+}
+
+function onMessageSensor(data) {
+  $(".sensor#distance").text(Math.round(data.distance * 100) / 100)
+  $(".sensor#ldr").text(data.ldr)
+  $(".sensor#pir").text(data.pir)
+  $(".sensor#humidity").text(Math.round(data.humidity * 100) / 100)
+  $(".sensor#temperature").text(Math.round(data.temperature * 100) / 100)
+  $(".sensor#heatIndex").text(Math.round(data.heatIndex * 100) / 100)
 }
 
 initWebSocket()

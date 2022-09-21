@@ -5,16 +5,6 @@
 #include "..\include\sensor.h"
 #include "..\include\server.h"
 
-#define SOUND_SPEED 0.034
-
-#define TRIGPIN 5
-#define ECHOPIN 18
-#define PIRPIN 14
-#define DHTPIN 13
-#define LDRPIN 35
-
-#define JSONBUFFERSIZE 256
-
 SensorData sensorData;
 
 DHT dht(DHTPIN, DHT11);

@@ -5,18 +5,88 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
     integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
-  <script src="socket.js"></script>
-  <script src="query.js"></script>
-  <link rel="stylesheet" href="style.css">  
+  <script src="socket.js" defer></script>
+  <script src="query.js" defer></script>
   <title>Document</title>
 </head>
 
 <body>
-  <button id="pingButton">ping</button>
-  <h1>Hi from esp32</h1>
-  <pre id="json"></pre>
+  <div class="section">
+    <div class="container">
+      <nav class="level is-align-items-flex-start">
+
+        <div class="level-left">
+          <div class="level-item">
+            <h1 class="title has-text-warning" id="connecting">Connecting</h1>
+          </div>
+        </div>
+
+        <div class="level-right is-flex-shrink-2">
+          <div class="level-item">
+            <div class="box" id="sensorData">
+              <!-- Distance data -->
+              <div class="icon-text ">
+                <span class="icon material-symbols-outlined">
+                  straighten
+                </span>
+                <span class="sensor" id="distance">0</span>
+                <span>cm</span>
+              </div>
+              <!-- Light sensor data -->
+              <div class="icon-text ">
+                <span class="icon material-symbols-outlined">
+                  lightbulb
+                </span>
+                <span class="sensor" id="ldr">0</span>
+              </div>
+              <!-- PIR data -->
+              <div class="icon-text">
+                <span class="icon material-symbols-outlined">
+                  motion_sensor_active
+                </span>
+                <span class="sensor" id="pir">0</span>
+              </div>
+              <!-- Humidity data -->
+              <div class="icon-text">
+                <span class="icon material-symbols-outlined">
+                  humidity_mid
+                </span>
+                <span class="sensor" id="humidity">0</span>
+                <span>%</span>
+              </div>
+              <!-- Temperature data -->
+              <div class="icon-text">
+                <span class="icon material-symbols-outlined">
+                  device_thermostat
+                </span>
+                <span class="sensor" id="temperature">0</span>
+                <span>°C</span>
+              </div>
+              <!-- Heat index data -->
+              <div class="icon-text">
+                <span class="icon material-symbols-outlined">
+                  temp_preferences_custom
+                </span>
+                <span class="sensor" id="heatIndex">0</span>
+                <span>°C</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </nav>
+      <button class="button" id="pingButton">ping</button>
+
+      <input class="slider is-fullwidth" name="volume" id="volume" step="1" min="0" max="100" value="50" type="range">
+    </div>
+  </div>
 </body>
 
 </html>

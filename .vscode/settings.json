@@ -11,6 +11,8 @@
     "initializer_list": "cpp",
     "regex": "cpp",
     "iosfwd": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "fstream": "cpp",
+    "functional": "cpp"
   }
 }

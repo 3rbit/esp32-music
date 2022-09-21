@@ -3,7 +3,7 @@
 #include <ArduinoJson.h>
 
 #include "..\include\sensor.h"
-#include "..\include\global.h"
+#include "..\include\server.h"
 
 #define SOUND_SPEED 0.034
 
@@ -76,7 +76,7 @@ StaticJsonDocument<JSONBUFFERSIZE> sensorDataToJSON(SensorData sensorData)
   return json;
 }
 
-void wsSendJSON(char *target, StaticJsonDocument<JSONBUFFERSIZE> data, AsyncWebSocket ws)
+void wsSendJSON(char *target, StaticJsonDocument<JSONBUFFERSIZE> data)
 {
   StaticJsonDocument<JSONBUFFERSIZE> namedJson;
   char buffer[JSONBUFFERSIZE];
@@ -95,6 +95,6 @@ void sensorLoop()
   if (ws.getClients().length() > 0)
   {
     StaticJsonDocument<JSONBUFFERSIZE> json = sensorDataToJSON(sensorData);
-    wsSendJSON("sensors", json, ws);
+    wsSendJSON("sensors", json);
   }
 }

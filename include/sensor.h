@@ -14,4 +14,6 @@ struct SensorData
   float heatIndex;
 };
 
+extern SensorData sensorData;
+
 #endif

@@ -13,7 +13,7 @@ TaskHandle_t Task;
 
 // use: Oscil <table_size, update_rate> oscilName (wavetable)
 Oscil<SIN2048_NUM_CELLS, AUDIO_RATE> aNoise(SIN2048_DATA);
-ADSR<CONTROL_RATE, AUDIO_RATE, unsigned long> envelope;
+ADSR<AUDIO_RATE, AUDIO_RATE, unsigned long> envelope;
 
 EventDelay noteDelay;
 byte volume = 255;
@@ -50,21 +50,17 @@ void updateControl()
   envelope.setLevels(envelope0.attackLevel, envelope0.decayLevel, envelope0.sustainLevel, envelope0.releaseLevel);
   envelope.setTimes(envelope0.attackTime, envelope0.decayTime, envelope0.sustainTime, envelope0.releaseTime);
 
-  // Serial.println(sensorData.temperature);
-  // Serial.println(sensorData.ldr);
-  // int noteIndex = (int)map(sensorData.ldr, 0, 2047, 0, sizeof(notes) / sizeof(float));
-  // aNoise.setFreq(notes[noteIndex]);
   if (noteDelay.ready())
   {
     aNoise.setFreq(notes[rand(sizeof(notes) / sizeof(float))]);
     envelope.noteOn();
     noteDelay.start();
   }
-  envelope.update();
 }
 
 AudioOutput_t updateAudio()
 {
+  envelope.update();
   u_int8_t env = envelope.next();
   int asig = aNoise.next();
   return MonoOutput::fromNBit(24, volume * env * asig);

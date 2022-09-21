@@ -19,7 +19,10 @@ function onOpen(event) {
   console.log('Connection opened');
   console.log(event);
 
-  socket.send('ping')
+  socket.send(JSON.stringify({
+    "target": "ping",
+    "data": ""
+  }));
 
   $("#connecting").text("Connected").attr("id", "connected").attr("class", "title has-text-success")
 }
@@ -50,6 +53,10 @@ function onMessage(event) {
   let data = json["data"]
 
   switch (target) {
+    case "pong":
+      console.log("server ponged")
+      break;
+
     case "sensors":
       onMessageSensor(data)
       break;

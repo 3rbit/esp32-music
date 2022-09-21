@@ -3,6 +3,7 @@
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
+#include <ArduinoJson.h>
 #include "..\include\server.h"
 #include "..\include\global.h"
 
@@ -10,16 +11,30 @@
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
-
 void handleWebSocketMessage(AsyncWebSocketClient *client, void *arg, uint8_t *data, size_t len)
 {
   AwsFrameInfo *info = (AwsFrameInfo *)arg;
   if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
   {
     data[len] = 0;
-    if (strcmp((char *)data, "ping") == 0)
+    DynamicJsonDocument json(1024);
+    deserializeJson(json, data, len);
+    const char *target = json["target"].as<const char*>();
+
+    if (strcmp(target, "ping") == 0)
     {
-      client->text("pong");
+      StaticJsonDocument<24> send;
+      char buffer[24];
+      send["target"] = "pong";
+      send["data"] = "";
+      size_t len = serializeJson(send, buffer);
+      client->text(buffer, len);
+      return;
+    }
+
+    if (strcmp(target, "updateVolume") == 0)
+    {
+      Serial.println("volume was updated");
     }
   }
 }

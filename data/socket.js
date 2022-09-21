@@ -43,10 +43,6 @@ function onError(event) {
 }
 
 function onMessage(event) {
-  if (event.data == "pong") {
-    console.log("server ponged")
-    return
-  }
 
   let json = JSON.parse(event.data)
   let target = json["target"]

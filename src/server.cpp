@@ -19,7 +19,7 @@ void handleWebSocketMessage(AsyncWebSocketClient *client, void *arg, uint8_t *da
     data[len] = 0;
     DynamicJsonDocument json(1024);
     deserializeJson(json, data, len);
-    const char *target = json["target"].as<const char*>();
+    const char *target = json["target"].as<const char *>();
 
     if (strcmp(target, "ping") == 0)
     {
@@ -31,10 +31,11 @@ void handleWebSocketMessage(AsyncWebSocketClient *client, void *arg, uint8_t *da
       client->text(buffer, len);
       return;
     }
-
-    if (strcmp(target, "updateVolume") == 0)
+    else if (strcmp(target, "updateVolume") == 0)
     {
-      Serial.println("volume was updated");
+      int recv = json["data"];
+      volume = (byte)map(recv, 0, 100, 0, 255);
+      Serial.printf("volume: %d\n", volume);
     }
   }
 }
@@ -51,8 +52,9 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
     Serial.printf("WebSocket client #%u disconnected\n", client->id());
     break;
   case WS_EVT_DATA:
-    handleWebSocketMessage(client, arg, data, len);
+    data[len] = 0;
     Serial.printf("Message: %s\n", data);
+    handleWebSocketMessage(client, arg, data, len);
     break;
   case WS_EVT_PONG:
   case WS_EVT_ERROR:

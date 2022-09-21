@@ -12,13 +12,14 @@ function updateVolume() {
 
 $(() => {
   $("#pingButton").click(() => {
-    console.log("button clicked");
-    socket.send("ping")
+    socket.send(JSON.stringify({
+      "target": "ping",
+      "data": ""
+    }));
   })
 
+  // Update volume every 50 milliseconds 
   $("#volume").on("input", () => {
-    console.log($("#volume").val())
-
     clearTimeout(volumeTimer);
     volumeTimer = setTimeout(updateVolume, 50);
   })

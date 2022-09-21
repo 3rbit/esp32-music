@@ -18,6 +18,7 @@ ADSR<CONTROL_RATE, AUDIO_RATE, unsigned long> envelope;
 EventDelay noteDelay;
 byte ampA, ampB; // convey amplitudes from updateControl() to updateAudioStereo();
 // unsigned int duration, attack, decay, sustain, release_ms;
+byte volume = 255;
 
 float notes[] = {261.63, 293.66, 329.63, 392.00, 440.00, 523.25};
 
@@ -61,7 +62,6 @@ void updateControl()
     aNoise.setFreq(notes[rand(sizeof(notes) / sizeof(float))]);
     envelope.noteOn();
     noteDelay.start();
-    Serial.println(envelope.next());
   }
   envelope.update();
 }
@@ -70,7 +70,7 @@ AudioOutput_t updateAudio()
 {
   u_int8_t env = envelope.next();
   int asig = aNoise.next();
-  return StereoOutput::fromNBit(24, env * asig * ampA, env * asig * ampB);
+  return StereoOutput::fromNBit(32, volume * env * asig * ampA, volume * env * asig * ampB);
 }
 
 void loop()

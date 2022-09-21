@@ -4,4 +4,6 @@
 #define WIFI_SSID "PONG"
 #define WIFI_PASSWORD "curlyhair"
 
+extern byte volume;
+
 #endif

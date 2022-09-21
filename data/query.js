@@ -47,5 +47,7 @@ $(() => {
   $("#attackLevel, #decayLevel, #sustainLevel, #releaseLevel, #idleLevel, #attackTime, #decayTime, #sustainTime, #releaseTime, #idleTime").on("input", () => {
     clearTimeout(envelopeTimer);
     envelopeTimer = setTimeout(updateEnvelope, 50);
+    draw.fire("updateEvent")
+
   })
 })

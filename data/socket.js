@@ -1,4 +1,6 @@
-const gateway = `ws://${window.location.hostname}/ws`
+// All websocket init code goes here
+// const gateway = `ws://${window.location.hostname}/ws`
+const gateway = "ws://192.168.1.129/ws"
 
 let socket = new WebSocket(gateway)
 
@@ -34,12 +36,25 @@ function onError(event) {
 }
 
 function onMessage(event) {
-
   if (event.data == "pong") {
-    console.log("server ponged");
-    
+    console.log("server ponged")
+    return
   }
-  console.log(event.data);
+
+  let json = JSON.parse(event.data)
+  let target = json["target"]
+  let data = json["data"]
+
+  switch (target) {
+    case "sensors":
+      $("#json").text(JSON.stringify(data, undefined, 2))
+      break;
+
+    default:
+      break;
+  }
+
+  // console.log(event.data);
 }
 
 initWebSocket()

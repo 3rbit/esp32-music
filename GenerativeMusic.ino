@@ -7,6 +7,7 @@
 
 #include "include\task.h"
 #include "include\sensor.h"
+#include "include\global.h"
 
 TaskHandle_t Task;
 
@@ -19,6 +20,7 @@ EventDelay noteDelay;
 byte ampA, ampB; // convey amplitudes from updateControl() to updateAudioStereo();
 // unsigned int duration, attack, decay, sustain, release_ms;
 byte volume = 255;
+Envelope envelope0;
 
 float notes[] = {261.63, 293.66, 329.63, 392.00, 440.00, 523.25};
 
@@ -26,7 +28,7 @@ void setup()
 {
   Serial.begin(115200);
 
-  //
+  // Run websocket server and sensors on other core
   xTaskCreatePinnedToCore(
       taskCore,      /* Function to implement the task */
       "WEB+SENSORS", /* Name of the task */
@@ -36,11 +38,15 @@ void setup()
       &Task,         /* Task handle. */
       0);            /* Core where the task should run */
 
+  delay(200);
+  Serial.print("setup() running on core ");
+  Serial.println(xPortGetCoreID());
+
   randSeed(); // fresh random
   startMozzi();
   noteDelay.set(2000); // 2 second countdown
-  envelope.setLevels(50, 70, 100, 30);
-  envelope.setTimes(500, 500, 500, 500);
+  // envelope.setLevels(envelope0.attackLevel, envelope0.decayLevel, envelope0.sustainLevel, envelope0.releaseLevel);
+  // envelope.setTimes(envelope0.attackTime, envelope0.decayTime, envelope0.sustainTime, envelope0.releaseTime);
   kPan.setFreq(0.25f);
   aNoise.setFreq(220); // set the frequency with an unsigned int or a float
 }
@@ -52,6 +58,9 @@ void updateControl()
   // cheap equal power panning from above site, put into 0-255 range for fast audio calcs
   ampA = (char)(sin(pan_angle) * 255);
   ampB = (char)(cos(pan_angle) * 255);
+
+  envelope.setLevels(envelope0.attackLevel, envelope0.decayLevel, envelope0.sustainLevel, envelope0.releaseLevel);
+  envelope.setTimes(envelope0.attackTime, envelope0.decayTime, envelope0.sustainTime, envelope0.releaseTime);
 
   // Serial.println(sensorData.temperature);
   // Serial.println(sensorData.ldr);

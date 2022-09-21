@@ -84,8 +84,90 @@
       </nav>
       <button class="button" id="pingButton">ping</button>
 
-      <input class="slider is-fullwidth" name="volume" id="volume" step="1" min="0" max="100" value="100" type="range">
+      <h1 class="title is-4">
+        Volume Control
+      </h1>
+      <nav class="level is-mobile">
+        <div class="level-left">
+          <div class="level-item">
+            <span class="icon material-symbols-outlined">
+              volume_mute
+            </span>
+          </div>
+        </div>
+        <div class="level-item">
+          <input class="slider" name="volume" id="volume" step="1" min="0" max="100" value="100" type="range">
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <span class="icon material-symbols-outlined">
+              volume_down
+            </span>
+          </div>
+        </div>
+      </nav>
+
+      <h2 class="title is-4">Envelope</h2>
+      <div class="tile is-ancestor box has-text-centered">
+        <h1 class="title is-5 has-text-centered">Level</h1>
+        <div class="tile is-parent is-vertical is-6">
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Attack Level</h3>
+            <input type="range" name="attackLevel" id="attackLevel" step="1" min="0" max="255" value="255"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Decay Level</h3>
+            <input type="range" name="decayLevel" id="decayLevel" step="1" min="0" max="255" value="255" class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Sustain Level</h3>
+            <input type="range" name="sustainLevel" id="sustainLevel" step="1" min="0" max="255" value="255"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Release Level</h3>
+            <input type="range" name="releaseLevel" id="releaseLevel" step="1" min="0" max="255" value="255"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Idle Level</h3>
+            <input type="range" name="idleLevel" id="idleLevel" step="1" min="0" max="255" value="255"
+              class="slider">
+          </div>
+        </div>
+        <div class="tile is-parent is-vertical">
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Attack Time</h3>
+            <input type="range" name="attackTime" id="attackTime" step="1" min="0" max="1000" value="1000"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Decay Time</h3>
+            <input type="range" name="decayTime" id="decayTime" step="1" min="0" max="1000" value="1000" class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Sustain Time</h3>
+            <input type="range" name="sustainTime" id="sustainTime" step="1" min="0" max="1000" value="1000"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Release Time</h3>
+            <input type="range" name="releaseTime" id="releaseTime" step="1" min="0" max="1000" value="1000"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Idle Time</h3>
+            <input type="range" name="idleTime" id="idleTime" step="1" min="0" max="1000" value="1000"
+              class="slider">
+          </div>
+        </div>
+      </div>
+
     </div>
+
+
+  </div>
   </div>
 </body>
 

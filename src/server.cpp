@@ -5,7 +5,8 @@
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 #include "..\include\server.h"
-#include "..\include\global.h"
+#include "..\include\config.h"
+#include "..\include\messageHandler.h"
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -22,21 +23,11 @@ void handleWebSocketMessage(AsyncWebSocketClient *client, void *arg, uint8_t *da
     const char *target = json["target"].as<const char *>();
 
     if (strcmp(target, "ping") == 0)
-    {
-      StaticJsonDocument<24> send;
-      char buffer[24];
-      send["target"] = "pong";
-      send["data"] = "";
-      size_t len = serializeJson(send, buffer);
-      client->text(buffer, len);
-      return;
-    }
+      MessageHandler::ping(client);
     else if (strcmp(target, "updateVolume") == 0)
-    {
-      int recv = json["data"];
-      volume = (byte)map(recv, 0, 100, 0, 255);
-      Serial.printf("volume: %d\n", volume);
-    }
+      MessageHandler::updateVolume(client, json);
+    else if (strcmp(target, "updateEnvelope") == 0) 
+      MessageHandler::updateEnvelope(client, json);
   }
 }
 
@@ -91,10 +82,6 @@ void webServerSetup()
   // Request to the root or none existing files will try to server the defualt
   // file name "index.htm" if exists
   server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
-  // Route for root / web page
-  // server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-  //   request->send(SPIFFS, "/index.html", String());
-  // });
 
   server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/index.html"); });

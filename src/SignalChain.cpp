@@ -4,7 +4,7 @@
 #include <mozzi_midi.h>
 #include <mozzi_rand.h>
 
-#include "..\include\global.h"
+#include "global.h"
 
 class SignalChain
 {

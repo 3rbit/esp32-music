@@ -4,9 +4,9 @@
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
-#include "..\include\server.h"
-#include "..\include\config.h"
-#include "..\include\messageHandler.h"
+#include "server.h"
+#include "config.h"
+#include "messageHandler.h"
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);

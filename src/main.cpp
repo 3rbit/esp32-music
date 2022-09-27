@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <MozziGuts.h>
 #include <Oscil.h> // oscil for audio sig
 #include <EventDelay.h>
@@ -5,10 +6,10 @@
 #include <tables/sin1024_int8.h> // sine table for pan oscillator
 #include <mozzi_rand.h>
 
-#include "include\task.h"
-#include "include\sensor.h"
-#include "include\global.h"
-#include "include\SignalChain.h"
+#include "task.h"
+#include "sensor.h"
+#include "global.h"
+#include "SignalChain.h"
 
 TaskHandle_t Task;
 

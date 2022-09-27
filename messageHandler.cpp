@@ -2,8 +2,8 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <ESPAsyncWebServer.h>
-#include "..\include\server.h"
-#include "..\include\global.h"
+#include "server.h"
+#include "global.h"
 
 namespace MessageHandler
 {

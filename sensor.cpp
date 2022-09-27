@@ -2,8 +2,8 @@
 #include <DHT.h>
 #include <ArduinoJson.h>
 
-#include "..\include\sensor.h"
-#include "..\include\server.h"
+#include "sensor.h"
+#include "server.h"
 
 SensorData sensorData;
 

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+    integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+  <script src="socket.js" defer></script>
+  <script src="query.js" defer></script>
+  <script src="svg.js" defer></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="section">
+    <div class="container">
+      <nav class="level is-align-items-flex-start">
+
+        <div class="level-left">
+          <div class="level-item">
+            <h1 class="title has-text-warning" id="connecting">Connecting</h1>
+          </div>
+        </div>
+
+        <div class="level-right is-flex-shrink-2">
+          <div class="level-item">
+            <div class="box" id="sensorData">
+              <!-- Distance data -->
+              <div class="icon-text ">
+                <span class="icon material-symbols-outlined">
+                  straighten
+                </span>
+                <span class="sensor" id="distance">0</span>
+                <span>cm</span>
+              </div>
+              <!-- Light sensor data -->
+              <div class="icon-text ">
+                <span class="icon material-symbols-outlined">
+                  lightbulb
+                </span>
+                <span class="sensor" id="ldr">0</span>
+              </div>
+              <!-- PIR data -->
+              <div class="icon-text">
+                <span class="icon material-symbols-outlined">
+                  motion_sensor_active
+                </span>
+                <span class="sensor" id="pir">0</span>
+              </div>
+              <!-- Humidity data -->
+              <div class="icon-text">
+                <span class="icon material-symbols-outlined">
+                  humidity_mid
+                </span>
+                <span class="sensor" id="humidity">0</span>
+                <span>%</span>
+              </div>
+              <!-- Temperature data -->
+              <div class="icon-text">
+                <span class="icon material-symbols-outlined">
+                  device_thermostat
+                </span>
+                <span class="sensor" id="temperature">0</span>
+                <span>°C</span>
+              </div>
+              <!-- Heat index data -->
+              <div class="icon-text">
+                <span class="icon material-symbols-outlined">
+                  temp_preferences_custom
+                </span>
+                <span class="sensor" id="heatIndex">0</span>
+                <span>°C</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </nav>
+      <button class="button" id="pingButton">ping</button>
+
+      <h1 class="title is-4">
+        Volume Control
+      </h1>
+      <nav class="level is-mobile">
+        <div class="level-left">
+          <div class="level-item">
+            <span class="icon material-symbols-outlined">
+              volume_mute
+            </span>
+          </div>
+        </div>
+        <div class="level-item">
+          <input class="slider" name="volume" id="volume" step="1" min="0" max="100" value="100" type="range">
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <span class="icon material-symbols-outlined">
+              volume_down
+            </span>
+          </div>
+        </div>
+      </nav>
+
+      <h2 class="title is-4">Envelope</h2>
+
+      <div id="envelopeGraph"></div>
+
+      <div class="tile is-ancestor box has-text-centered">
+        <h1 class="title is-5 has-text-centered">Level</h1>
+        <div class="tile is-parent is-vertical is-6">
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Attack Level</h3>
+            <input type="range" name="attackLevel" id="attackLevel" step="1" min="0" max="255" value="255"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Decay Level</h3>
+            <input type="range" name="decayLevel" id="decayLevel" step="1" min="0" max="255" value="255" class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Sustain Level</h3>
+            <input type="range" name="sustainLevel" id="sustainLevel" step="1" min="0" max="255" value="255"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Release Level</h3>
+            <input type="range" name="releaseLevel" id="releaseLevel" step="1" min="0" max="255" value="255"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Idle Level</h3>
+            <input type="range" name="idleLevel" id="idleLevel" step="1" min="0" max="255" value="255" class="slider">
+          </div>
+        </div>
+        <div class="tile is-parent is-vertical">
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Attack Time</h3>
+            <input type="range" name="attackTime" id="attackTime" step="1" min="0" max="1000" value="500"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Decay Time</h3>
+            <input type="range" name="decayTime" id="decayTime" step="1" min="0" max="1000" value="500" class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Sustain Time</h3>
+            <input type="range" name="sustainTime" id="sustainTime" step="1" min="0" max="1000" value="500"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Release Time</h3>
+            <input type="range" name="releaseTime" id="releaseTime" step="1" min="0" max="1000" value="500"
+              class="slider">
+          </div>
+          <div class="tile is-child is-vertical">
+            <h3 class="subtitle">Idle Time</h3>
+            <input type="range" name="idleTime" id="idleTime" step="1" min="0" max="1000" value="500" class="slider">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+  </div>
+</body>
+
+</html>

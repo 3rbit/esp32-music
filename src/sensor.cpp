@@ -3,7 +3,7 @@
 #include <ArduinoJson.h>
 
 #include "sensor.h"
-#include "server.h"
+#include "myServer.h"
 
 SensorData sensorData;
 

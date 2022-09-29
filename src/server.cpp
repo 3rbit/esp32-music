@@ -4,7 +4,7 @@
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
-#include "server.h"
+#include "myServer.h"
 #include "config.h"
 #include "messageHandler.h"
 

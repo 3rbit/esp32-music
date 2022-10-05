@@ -5,7 +5,7 @@
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 #include "myServer.h"
-#include "config.h"
+#include "wifiConfig.h"
 #include "messageHandler.h"
 
 // Create AsyncWebServer object on port 80
@@ -68,7 +68,7 @@ void webServerSetup()
     return;
   }
 
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  WiFi.softAP(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED)
   {
     delay(500);

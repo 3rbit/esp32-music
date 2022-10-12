@@ -27,15 +27,15 @@ void Beat::updateControl()
     if (onBeats[beatIndex++])
       envelope.noteOn();
 
-    if (beatIndex > 4)
+    if (beatIndex >= 4)
       beatIndex = 0;
 
     delay.start();
   }
 }
 
-AudioOutput_t Beat::next()
+unsigned char Beat::next()
 {
   envelope.update();
-  return AudioOutput::from16Bit(envelope.next() * noise.next());
+  return envelope.next() * noise.next() >> 8;
 }

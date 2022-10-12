@@ -18,7 +18,7 @@ private:
 public:
   Beat(int frequency, unsigned char noteOnBeats[4]);
   void updateControl();
-  AudioOutput_t next();
+  unsigned char next();
 };
 
 #endif

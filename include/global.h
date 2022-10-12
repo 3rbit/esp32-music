@@ -2,6 +2,7 @@
 #define GLOBAL_H
 
 extern byte volume;
+extern unsigned int tempo;
 
 struct Envelope
 {

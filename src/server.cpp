@@ -26,7 +26,7 @@ void handleWebSocketMessage(AsyncWebSocketClient *client, void *arg, uint8_t *da
       MessageHandler::ping(client);
     else if (strcmp(target, "updateVolume") == 0)
       MessageHandler::updateVolume(client, json);
-    else if (strcmp(target, "updateEnvelope") == 0) 
+    else if (strcmp(target, "updateEnvelope") == 0)
       MessageHandler::updateEnvelope(client, json);
   }
 }
@@ -59,6 +59,27 @@ void initWebSocket()
   server.addHandler(&ws);
 }
 
+void initWifi()
+{
+#if WIFI_MODE
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println(WiFi.localIP());
+#else
+  // Connect to Wi-Fi network with SSID and password
+  Serial.print("Setting AP (Access Point)…");
+  // Remove the password parameter, if you want the AP (Access Point) to be open
+  WiFi.softAP(WIFI_SSID, WIFI_PASSWORD);
+
+  Serial.print("AP IP address: ");
+  Serial.println(WiFi.softAPIP());
+#endif
+}
+
 void webServerSetup()
 {
   // Initialize SPIFFS
@@ -67,14 +88,7 @@ void webServerSetup()
     Serial.println("An Error has occurred while mounting SPIFFS");
     return;
   }
-
-  WiFi.softAP(WIFI_SSID, WIFI_PASSWORD);
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println(WiFi.localIP());
+  initWifi();
 
   initWebSocket();
 

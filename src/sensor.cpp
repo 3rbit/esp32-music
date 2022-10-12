@@ -66,18 +66,6 @@ StaticJsonDocument<JSONBUFFERSIZE> sensorDataToJSON(SensorData sensorData)
   return json;
 }
 
-void wsSendJSON(char *target, StaticJsonDocument<JSONBUFFERSIZE> data)
-{
-  StaticJsonDocument<JSONBUFFERSIZE> namedJson;
-  char buffer[JSONBUFFERSIZE];
-  namedJson["target"] = "sensors";
-  namedJson["data"] = data;
-
-  size_t len = serializeJson(namedJson, buffer);
-
-  ws.textAll(buffer, len);
-}
-
 void sensorLoop()
 {
   readSensors();
@@ -85,6 +73,13 @@ void sensorLoop()
   if (ws.getClients().length() > 0)
   {
     StaticJsonDocument<JSONBUFFERSIZE> json = sensorDataToJSON(sensorData);
-    wsSendJSON("sensors", json);
+    StaticJsonDocument<JSONBUFFERSIZE> namedJson;
+    char buffer[JSONBUFFERSIZE];
+    namedJson["target"] = "sensors";
+    namedJson["data"] = json;
+
+    size_t len = serializeJson(namedJson, buffer);
+
+    ws.textAll(buffer, len);
   }
 }

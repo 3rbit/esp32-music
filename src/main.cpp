@@ -9,6 +9,7 @@
 #include "task.h"
 #include "sensor.h"
 #include "global.h"
+#include "Beat.h"
 
 TaskHandle_t Task;
 
@@ -19,6 +20,7 @@ ADSR<AUDIO_RATE, AUDIO_RATE, unsigned long> envelope;
 EventDelay noteDelay;
 byte volume = 255;
 Envelope envelope0;
+Beat beat(300, (unsigned char[4]){1, 0, 1, 0});
 
 float notes[] = {261.63, 293.66, 329.63, 392.00, 440.00, 523.25};
 
@@ -36,7 +38,7 @@ void setup()
       &Task,         /* Task handle. */
       0);            /* Core where the task should run */
 
-  delay(200);
+  delay(3000);
   Serial.print("setup() running on core ");
   Serial.println(xPortGetCoreID());
 
@@ -57,6 +59,8 @@ void updateControl()
     envelope.noteOn();
     noteDelay.start();
   }
+
+  beat.updateControl();
 }
 
 AudioOutput_t updateAudio()
@@ -64,7 +68,8 @@ AudioOutput_t updateAudio()
   envelope.update();
   u_int8_t env = envelope.next();
   int asig = aNoise.next();
-  return MonoOutput::fromNBit(24, volume * env * asig);
+  // AudioOutput_t base = AudioOutput::fromNBit(24, volume * env * asig);
+  return beat.next();
 }
 
 void loop()

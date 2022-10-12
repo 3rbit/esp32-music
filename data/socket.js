@@ -1,6 +1,6 @@
 // All websocket init code goes here
-// const gateway = `ws://${window.location.hostname}/ws`
-const gateway = "ws://192.168.1.129/ws"
+const gateway = `ws://${window.location.hostname}/ws`
+// const gateway = "ws://192.168.1.129/ws"
 
 let socket = new WebSocket(gateway)
 

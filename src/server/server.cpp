@@ -5,7 +5,7 @@
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
 #include "myServer.h"
-#include "wifiConfig.h"
+#include "config.h"
 #include "messageHandler.h"
 
 // Create AsyncWebServer object on port 80

@@ -17,8 +17,8 @@ byte volume;
 unsigned int tempo;
 
 
-Beat beat1(300, (unsigned char[4]){1, 0, 0, 1});
-Beat beat2(600, (unsigned char[4]){0, 1, 1, 0});
+Beat beat1(300, (unsigned char[BEATS_PER_BAR]){1, 0, 0, 1, 1, 0, 0, 1});
+Beat beat2(600, (unsigned char[BEATS_PER_BAR]){0, 1, 1, 0, 0, 0, 0, 0});
 
 float notes[] = {261.63, 293.66, 329.63, 392.00, 440.00, 523.25};
 

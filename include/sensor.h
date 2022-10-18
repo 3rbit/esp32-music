@@ -1,29 +1,35 @@
 #ifndef SENSORS_H
 #define SENSORS_H
 
+#include <ArduinoJson.h>
+
 // Sensor Config
 #define SOUND_SPEED 0.034
 
-#define TRIGPIN 5
-#define ECHOPIN 18
-#define PIRPIN 14
-#define DHTPIN 13
+#define TRIGPIN 18
+#define ECHOPIN 5
+#define PROXPOWERPIN 19
 #define LDRPIN 35
 
 #define JSONBUFFERSIZE 256
-
 
 void sensorSetup();
 void sensorLoop();
 
 struct SensorData
 {
-  float distanceCm; // ultrasonic
-  int ldr;
-  int pirStat;
-  float humidity;
-  float temperature;
-  float heatIndex;
+  float distance; // ultrasonic
+  int light;
+
+  StaticJsonDocument<JSONBUFFERSIZE> toNamedJSON()
+  {
+    StaticJsonDocument<JSONBUFFERSIZE> json;
+    json["target"] = "sensors";
+    JsonObject jsonData = json.createNestedObject("data");
+    jsonData["distance"] = distance;
+    jsonData["light"] = light;
+    return json;
+  }
 };
 
 extern SensorData sensorData;

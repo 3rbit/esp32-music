@@ -1,13 +1,10 @@
 #include <Arduino.h>
-#include <DHT.h>
 #include <ArduinoJson.h>
 
 #include "sensor.h"
 #include "myServer.h"
 
 SensorData sensorData;
-
-DHT dht(DHTPIN, DHT11);
 
 float readUltrasonic()
 {
@@ -31,55 +28,37 @@ float readUltrasonic()
 // Read sensors into sensorData struct
 void readSensors()
 {
-  sensorData.distanceCm = readUltrasonic();
+  sensorData.distance = readUltrasonic();
 
   // reads the input on analog pin A0 (value between 0 and 1023)
-  sensorData.ldr = analogRead(LDRPIN);
-
-  sensorData.pirStat = digitalRead(PIRPIN);
-
-  sensorData.humidity = dht.readHumidity();
-  sensorData.temperature = dht.readTemperature();
-  sensorData.heatIndex = dht.computeHeatIndex(sensorData.temperature, sensorData.humidity, false);
+  sensorData.light = analogRead(LDRPIN);
 }
 
 void sensorSetup()
 {
+  pinMode(PROXPOWERPIN, OUTPUT);
   pinMode(TRIGPIN, OUTPUT); // Sets the trigPin as an Output
   pinMode(ECHOPIN, INPUT);  // Sets the echoPin as an Input
-  pinMode(PIRPIN, INPUT);
-  pinMode(DHTPIN, INPUT);
   pinMode(LDRPIN, INPUT);
 
-  dht.begin();
+  digitalWrite(PROXPOWERPIN, HIGH); // set as power source
 }
 
-StaticJsonDocument<JSONBUFFERSIZE> sensorDataToJSON(SensorData sensorData)
+void printSensorData()
 {
-  StaticJsonDocument<JSONBUFFERSIZE> json;
-  json["distance"] = sensorData.distanceCm;
-  json["ldr"] = sensorData.ldr;
-  json["pir"] = sensorData.pirStat;
-  json["humidity"] = sensorData.humidity;
-  json["temperature"] = sensorData.temperature;
-  json["heatIndex"] = sensorData.heatIndex;
-  return json;
+  printf("Distance: %f\n", sensorData.distance);
+  printf("Light: %d\n\n", sensorData.light);
 }
 
 void sensorLoop()
 {
   readSensors();
-
+  printSensorData();
   if (ws.getClients().length() > 0)
   {
-    StaticJsonDocument<JSONBUFFERSIZE> json = sensorDataToJSON(sensorData);
-    StaticJsonDocument<JSONBUFFERSIZE> namedJson;
+    StaticJsonDocument<JSONBUFFERSIZE> namedJson = sensorData.toNamedJSON();
     char buffer[JSONBUFFERSIZE];
-    namedJson["target"] = "sensors";
-    namedJson["data"] = json;
-
     size_t len = serializeJson(namedJson, buffer);
-
     ws.textAll(buffer, len);
   }
 }

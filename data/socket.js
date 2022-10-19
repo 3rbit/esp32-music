@@ -1,6 +1,6 @@
 // All websocket init code goes here
-const gateway = `ws://${window.location.hostname}/ws`
-// const gateway = "ws://192.168.1.129/ws"
+// const gateway = `ws://${window.location.hostname}/ws`
+const gateway = "ws://192.168.1.110/ws"
 
 let socket = new WebSocket(gateway)
 
@@ -66,11 +66,7 @@ function onMessage(event) {
 
 function onMessageSensor(data) {
   $(".sensor#distance").text(Math.round(data.distance * 100) / 100)
-  $(".sensor#ldr").text(data.ldr)
-  $(".sensor#pir").text(data.pir)
-  $(".sensor#humidity").text(Math.round(data.humidity * 100) / 100)
-  $(".sensor#temperature").text(Math.round(data.temperature * 100) / 100)
-  $(".sensor#heatIndex").text(Math.round(data.heatIndex * 100) / 100)
+  $(".sensor#light").text(data.light)
 }
 
 initWebSocket()

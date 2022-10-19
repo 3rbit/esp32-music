@@ -39,3 +39,8 @@ unsigned char Beat::next()
   envelope.update();
   return envelope.next() * noise.next() >> 8;
 }
+
+void Beat::updateTempo(unsigned int tempo)
+{
+  delay.set(60000 / tempo);
+}

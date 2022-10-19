@@ -21,6 +21,7 @@ public:
   Beat(int frequency, unsigned char noteOnBeats[BEATS_PER_BAR]);
   void updateControl();
   unsigned char next();
+  void updateTempo(unsigned int tempo);
 };
 
 #endif

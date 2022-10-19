@@ -12,10 +12,8 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
     integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
   <script src="socket.js" defer></script>
   <script src="query.js" defer></script>
-  <script src="svg.js" defer></script>
   <title>Document</title>
 </head>
 
@@ -77,6 +75,30 @@
           </div>
         </div>
       </nav>
+
+      <h1 class="title is-4">
+        Tempo Control
+      </h1>
+      <nav class="level is-mobile">
+        <div class="level-left">
+          <div class="level-item">
+            <span class="icon material-symbols-outlined">
+              signal_cellular_1_bar
+            </span>
+          </div>
+        </div>
+        <div class="level-item">
+          <input class="slider" name="tempo" id="tempo" step="1" min="0" max="300" value="120" type="range">
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <span class="icon material-symbols-outlined">
+              signal_cellular_4_bar
+            </span>
+          </div>
+        </div>
+      </nav>
+
 
     </div>
 

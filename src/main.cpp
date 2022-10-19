@@ -12,15 +12,12 @@
 #include "Beat.h"
 
 TaskHandle_t Task;
-Envelope envelope0;
-byte volume;
-unsigned int tempo;
+byte globalVolume = 100;
+unsigned int tempo = 120;
 
 
 Beat beat1(300, (unsigned char[BEATS_PER_BAR]){1, 0, 0, 1, 1, 0, 0, 1});
 Beat beat2(600, (unsigned char[BEATS_PER_BAR]){0, 1, 1, 0, 0, 0, 0, 0});
-
-float notes[] = {261.63, 293.66, 329.63, 392.00, 440.00, 523.25};
 
 void setup()
 {

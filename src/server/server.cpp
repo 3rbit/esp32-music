@@ -26,6 +26,8 @@ void handleWebSocketMessage(AsyncWebSocketClient *client, void *arg, uint8_t *da
       MessageHandler::ping(client);
     else if (strcmp(target, "updateVolume") == 0)
       MessageHandler::updateVolume(client, json);
+    else if (strcmp(target, "updateTempo") == 0)
+      MessageHandler::updateTempo(json);
   }
 }
 

@@ -1,7 +1,10 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include "Beat.h"
+
 extern byte globalVolume;
-extern unsigned int tempo;
+extern Beat beat1;
+extern Beat beat2;
 
 #endif

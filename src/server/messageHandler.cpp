@@ -23,4 +23,11 @@ namespace MessageHandler
   {
     globalVolume = (byte)json["data"];
   }
+
+  void updateTempo(DynamicJsonDocument json)
+  {
+    unsigned int tempo = (unsigned int)json["data"];
+    beat1.updateTempo(tempo);
+    beat2.updateTempo(tempo);
+  }
 }

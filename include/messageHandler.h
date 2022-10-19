@@ -7,7 +7,7 @@ namespace MessageHandler
 {
   void ping(AsyncWebSocketClient *client);
   void updateVolume(AsyncWebSocketClient *client, DynamicJsonDocument json);
-  void updateEnvelope(AsyncWebSocketClient *client, DynamicJsonDocument json);
+  void updateTempo(DynamicJsonDocument json);
 }
 
 #endif

@@ -4,7 +4,7 @@
 #include <tables/sin1024_int8.h> // sine table for pan oscillator
 #include "Beat.h"
 
-Beat::Beat(int frequency, unsigned char noteOnBeats[BEATS_PER_BAR])
+Beat::Beat(int frequency, bool noteOnBeats[BEATS_PER_BAR])
 {
   for (int i = 0; i < BEATS_PER_BAR; i++)
   {
@@ -34,13 +34,13 @@ void Beat::updateControl()
   }
 }
 
-unsigned char Beat::next()
+signed char Beat::next()
 {
   envelope.update();
-  return envelope.next() * noise.next() >> 8;
+  return (envelope.next() * noise.next()) >> 8;
 }
 
 void Beat::updateTempo(unsigned int tempo)
 {
-  delay.set(60000 / tempo);
+  delay.set(60000 / (tempo * BEATS_PER_BAR));
 }

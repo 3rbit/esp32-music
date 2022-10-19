@@ -4,7 +4,10 @@
 #include "sensor.h"
 #include "myServer.h"
 
+#define SEND_RATE 200000 // microseconds
+
 SensorData sensorData;
+static unsigned long prevSendtime;
 
 float readUltrasonic()
 {
@@ -42,6 +45,8 @@ void sensorSetup()
   pinMode(LDRPIN, INPUT);
 
   digitalWrite(PROXPOWERPIN, HIGH); // set as power source
+
+  prevSendtime = micros();
 }
 
 void printSensorData()
@@ -52,10 +57,10 @@ void printSensorData()
 
 void sensorLoop()
 {
-  readSensors();
-  printSensorData();
-  if (ws.getClients().length() > 0)
+  if (ws.getClients().length() > 0 && micros() - prevSendtime >= SEND_RATE)
   {
+    printSensorData();
+    prevSendtime = micros();
     StaticJsonDocument<JSONBUFFERSIZE> namedJson = sensorData.toNamedJSON();
     char buffer[JSONBUFFERSIZE];
     size_t len = serializeJson(namedJson, buffer);

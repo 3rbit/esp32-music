@@ -1,0 +1,20 @@
+{
+  "files.associations": {
+    "mutex": "cpp",
+    "*.tcc": "cpp",
+    "bitset": "cpp",
+    "set": "cpp",
+    "random": "cpp",
+    "fstream": "cpp",
+    "functional": "cpp",
+    "istream": "cpp",
+    "limits": "cpp",
+    "ostream": "cpp",
+    "sstream": "cpp",
+    "streambuf": "cpp",
+    "regex": "cpp",
+    "tuple": "cpp",
+    "atomic": "cpp",
+    "cstdint": "cpp"
+  }
+}

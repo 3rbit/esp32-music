@@ -14,13 +14,13 @@ private:
   Oscil<SIN1024_NUM_CELLS, AUDIO_RATE> noise;
   ADSR<AUDIO_RATE, AUDIO_RATE, unsigned long> envelope;
   EventDelay delay;
-  unsigned char onBeats[BEATS_PER_BAR];
+  bool onBeats[BEATS_PER_BAR];
   unsigned char beatIndex = 0;
 
 public:
-  Beat(int frequency, unsigned char noteOnBeats[BEATS_PER_BAR]);
+  Beat(int frequency, bool noteOnBeats[BEATS_PER_BAR]);
   void updateControl();
-  unsigned char next();
+  signed char next();
   void updateTempo(unsigned int tempo);
 };
 

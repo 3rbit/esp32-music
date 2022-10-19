@@ -13,6 +13,7 @@
 
 #define JSONBUFFERSIZE 256
 
+void readSensors();
 void sensorSetup();
 void sensorLoop();
 
